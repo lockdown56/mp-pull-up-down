@@ -1,0 +1,39 @@
+.refresh-container {
+    overflow: hidden;
+}
+
+.loading {
+    padding: 20rpx;
+    text-align: center;
+    margin-top: -100rpx;
+}
+
+.loading image {
+    margin: 0;
+    width: 60rpx;
+    height: 60rpx;
+    vertical-align: middle;
+}
+
+@keyframes refresh {
+    from {
+        padding-top: 100rpx;
+    }
+    to {
+        padding-top: 0;
+    }
+}
+
+.refreshing {
+    animation-name: refresh;
+    animation-duration: 500ms; 
+    animation-fill-mode: forwards;
+}
+
+.is-loading {
+    padding-top: 100rpx;
+}
+
+.refreshed {
+    padding-top: 0;
+}

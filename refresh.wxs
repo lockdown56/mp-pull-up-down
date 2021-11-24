@@ -1,0 +1,76 @@
+var startY = 0
+var currY = 0
+var isLoading = false
+var triggerDistance = 80
+var loadingDistance = 100
+
+var start = function(event, instance) {
+    startY = event.touches[0].pageY
+}
+
+var move = function(event, instance) {
+    currY = event.touches[0].pageY
+    var moveDistance = Math.ceil(currY - startY)
+
+    var container = instance.selectComponent('.refresh-container') 
+    if (!isLoading && (moveDistance > 0)) {
+        container.setStyle({
+            "padding-top": moveDistance + "rpx" 
+        })
+    } else if (isLoading && moveDistance > loadingDistance) {
+        container.setStyle({
+            "padding-top": moveDistance + "rpx" 
+        })
+    }
+}
+
+var end = function(event, ownerInstance) {
+    var container = ownerInstance.selectComponent('.refresh-container')
+    if ((currY - startY) > triggerDistance && !isLoading) {
+        isLoading = true
+
+        ownerInstance.triggerEvent("pulldownevent")
+
+        // 触发操作
+        // container.callMethod("getBills")
+    }
+
+    if (isLoading) {
+        container.setStyle({
+            "padding-top": loadingDistance + "rpx"
+        })
+
+    } else {
+        container.setStyle({
+            "padding-top": "0"
+        })
+    }
+
+    startY = 0
+    currY = 0
+}
+
+var complete = function(newValue, oldValue, ownerInstance) {
+    if (newValue) {
+        var container = ownerInstance.selectComponent('.refresh-container') 
+        container.addClass("refreshing")
+    }
+
+    isLoading = false
+}
+
+var animationend = function(event, ownerInstance) {
+    var container = ownerInstance.selectComponent('.refresh-container') 
+    container.removeClass("refreshing")
+    container.setStyle({
+        "padding-top": "0"
+    })
+}
+
+module.exports = {
+    start: start,
+    move: move,
+    end: end,
+    complete: complete,
+    animationend: animationend
+}

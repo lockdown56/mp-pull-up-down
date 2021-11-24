@@ -1,0 +1,13 @@
+<view class="refresh-container"
+        bindtouchmove="{{ refresh.move }}" 
+        bindtouchstart="{{ refresh.start }}"
+        bindtouchend="{{ refresh.end }}"
+        bindanimationend="{{ refresh.animationend }}"
+        change:prop="{{ refresh.complete }}" prop="{{ complete }}"
+>
+    <view class="loading">
+        <image src="/images/loading.gif" />
+    </view>
+    <slot></slot>
+</view>
+<wxs module="refresh" src="./refresh.wxs"></wxs>
